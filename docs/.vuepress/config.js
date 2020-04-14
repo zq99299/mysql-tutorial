@@ -52,7 +52,8 @@ module.exports = {
         },
         nav: [
             {text: 'Home', link: '/'},
-            {text: '给程序员的 MySQL 必知必会', link: '/imooc-mysql8/'}
+            {text: '给程序员的 MySQL 必知必会', link: '/imooc-mysql8/'},
+            {text: '笔记精选汇总', link: 'https://github.com/zq99299/repository-summary'}
         ],
         sidebar: {  // 侧边栏配置，需要展示的侧边栏需要在这里配置
            '/imooc-mysql8/': imoocMysql8SC()
