@@ -104,7 +104,7 @@
 
 可通过 [榜单](https://db-engines.com/en/ranking) 来获取
 
-![image-20200413230903756](./assets/image-20200413230903756.png)
+![image-20200413230903756](docs/imooc-mysql8/02/assets/image-20200413230903756.png)
 
 ### MySQL 可扩展性
 
@@ -147,7 +147,7 @@
 
 在官方参考手册中找到 [install 章节](https://dev.mysql.com/doc/refman/8.0/en/installing.html)，再继续找你适合你系统的安装说明，我这里选择了 [linux 安装](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html)
 
-![image-20200414221316390](./assets/image-20200414221316390.png)
+![image-20200414221316390](docs/imooc-mysql8/02/assets/image-20200414221316390.png)
 
 打开它对应的 [安装文档](https://dev.mysql.com/doc/refman/8.0/en/linux-installation-yum-repo.html)，找到 「Table 2.11 MySQL Installation Layout for Linux RPM Packages from the MySQL Developer Zone」一栏，里面解释了安装软件后的重要文件在什么位置，比如它的配置文件在 `/etc/my.cnf`
 

@@ -2,7 +2,8 @@ module.exports = () => {
   return [
     '',
     '01.md',
-    '02.md'
+    '02/',
+    '03/'
     // {
     //   title: '01. Linux 是什么/如何学习',
     //   children: [
