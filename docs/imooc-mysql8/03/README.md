@@ -764,3 +764,165 @@ dt
 
 ### 为数据库表起名（最终数据库设计）
 
+课程表：imc_course
+
+| 列名          | 数据类型          | 代码          |
+| ------------- | ----------------- | ------------- |
+| 课程 ID（PK） | int unsigned      | course_id     |
+| 主标题（UK）  | varchar(20)       | title         |
+| 副标题        | varchar(50)       | tile_desc     |
+| 课程方向 ID   | smallint unsigned | type_id       |
+| 课程分类 ID   | smallint unsigned | class_id      |
+| 课程难度 ID   | smallint unsigned | level_id      |
+| 上线时间      | datetime          | online_time   |
+| 学习人数      | Int unsigned      | study_cnt     |
+| 课程时长      | time              | course_time   |
+| 课程简介      | varchar(200)      | intro         |
+| 学习需知      | varchar(200)      | info          |
+| 课程收获      | varchar(200)      | harvest       |
+| 讲师 ID       | nt unsigned       | user_id       |
+| 课程主图片    | varchar(200)      | main_pic      |
+| 内容评分      | decimal(3,1)      | content_score |
+| 简单易懂      | decimal(3,1)      | level_score   |
+| 逻辑清晰      | decimal(3,1)      | logic_score   |
+| 综合评分      | decimal(3,1)      | score         |
+
+课程章节表：imc_chapter
+
+| 列名           | 数据类型                     | 代码         |
+| -------------- | ---------------------------- | ------------ |
+| 章节 ID（PK）  | int unsigned                 | chapter_id   |
+| 课程 ID（UK）  | int unsigned                 | course_id    |
+| 章节名称（UK） | varchar(50)                  | chapter_name |
+| 章节说明       | varchar(200)                 | chapter_info |
+| 课程分类 ID    | tinyint(2) unsigned ZEROFILL | chapter_no   |
+
+课程小节表：imc_subsection
+
+| 列名           | 数据类型                     | 代码       |
+| -------------- | ---------------------------- | ---------- |
+| 小节 ID（PK）  | int unsigned                 | sub_id     |
+| 章节 ID (UK)   | int unsigned                 | chapter_id |
+| 课程 ID（UK）  | int unsigned                 | course_id  |
+| 小节名称（UK） | varchar(50)                  | sub_name   |
+| 小节 URL       | varchar(200)                 | sub_url    |
+| 视频格式       | enum('avi','mp4','mpeg')     | video_type |
+| 小节时长       | time                         | sub_time   |
+| 小节编号       | tinyint(2) unsigned ZEROFILL | sub_no     |
+
+课程方向表：imc_type
+
+| 列名              | 数据类型          | 代码      |
+| ----------------- | ----------------- | --------- |
+| 课程方向 ID（PK） | smallint unsigned | type_id   |
+| 方向名称 (UK)     | varchar(10)       | type_name |
+| 增加时间          | timestamp         | add_time  |
+
+课程分类表：imc_class
+
+| 列名              | 数据类型          | 代码       |
+| ----------------- | ----------------- | ---------- |
+| 课程分类 ID（PK） | smallint unsigned | class_id   |
+| 分类名称 (UK)     | varchar(10)       | class_name |
+| 增加时间          | timestamp         | add_time   |
+
+课程难度表：imc_level
+
+| 列名               | 数据类型          | 代码       |
+| ------------------ | ----------------- | ---------- |
+| 课程分难度ID（PK） | smallint unsigned | level_id   |
+| 难度名称 (UK)      | varchar(10)       | level_name |
+| 增加时间           | timestamp         | add_time   |
+
+用户表：imc_user
+
+| 列名          | 数据类型           | 代码        |
+| ------------- | ------------------ | ----------- |
+| 用户 ID（PK） | int unsigned       | user_id     |
+| 用户昵称UK)   | varchar(20)        | user_nick   |
+| 密码          | timestamp          | user_pwd    |
+| 性别          | char(2)            | sex         |
+| 省            | varchar(20)        | province    |
+| 市            | varchar(20)        | city        |
+| 职位          | varchar(10)        | position    |
+| 说明          | varchar(100)       | mem         |
+| 经验值        | mediumint unsigned | exp_cnt     |
+| 积分          | int unsigned       | score       |
+| 关注人数      | int unsigned       | follow_cnt  |
+| 粉丝人数      | int unsigned       | fans_cnt    |
+| 讲师标识      | tinyint unsigned   | is_teacher  |
+| 注册时间      | datetime           | reg_time    |
+| 用户状态      | tinyint unsigned   | user_status |
+
+问答评论表：imc_question
+
+| 列名          | 数据类型            | 代码          |
+| ------------- | ------------------- | ------------- |
+| 评论 ID（PK） | int unsigned        | quest_id      |
+| 用户 ID       | int unsigned        | user_id       |
+| 课程 ID       | int unsigned        | course_id     |
+| 章节 ID       | int unsigned        | chapter_id    |
+| 小节 ID       | int unsigned        | sub_id        |
+| 父评论 ID     | int unsigned        | reply_id      |
+| 评论标题      | varchar(50)         | quest_title   |
+| 评论内容      | text                | quest_content |
+| 评论类型      | enum('问答','评论') | quest_type    |
+| 浏览量        | int unsigned        | view_cnt      |
+| 发布时间      | datetime            | add_time      |
+
+同学笔记表：imc_note
+
+| 列名          | 数据类型     | 代码         |
+| ------------- | ------------ | ------------ |
+| 笔记 ID（PK） | int unsigned | note_id      |
+| 用户 ID       | int unsigned | user_id      |
+| 课程 ID       | int unsigned | course_id    |
+| 章节 ID       | int unsigned | chapter_id   |
+| 小节 ID       | int unsigned | sub_id       |
+| 笔记标题      | varchar(50)  | note_title   |
+| 笔记内容      | text         | note_content |
+| 评论类型      | datetime     | add_time     |
+
+评价表：imc_classvalue
+
+| 列名          | 数据类型     | 代码          |
+| ------------- | ------------ | ------------- |
+| 评价 ID（PK） | int unsigned | value_id      |
+| 用户 ID       | int unsigned | user_id       |
+| 课程 ID       | int unsigned | course_id     |
+| 内容评分      | decimal(3,1) | content_score |
+| 简单易懂      | decimal(3,1) | leve_score    |
+| 逻辑清晰      | decimal(3,1) | logic_score   |
+| 综合评分      | decimal(3,1) | score         |
+| 发布时间      | datetime     | add_time      |
+
+用户选课表：imc_selectcourse
+
+| 列名          | 数据类型     | 代码        |
+| ------------- | ------------ | ----------- |
+| 选课 ID（PK） | int unsigned | select_id   |
+| 用户 ID       | int unsigned | user_id     |
+| 课程 ID       | int unsigned | course_id   |
+| 选课时间      | datetime     | select_time |
+| 累积听课时间  | time         | study_time  |
+
+## 本章知识点回顾
+
+- 数据库的逻辑设计规范
+
+  一个良好的表逻辑设计需要遵循表的三范式，为了查询性能，需要对标进行反范式化的设计，以空间换时间的策略，提高查询性能。适当的进行反范式化需要根据业务场景进行考虑
+
+- MySQL 的常用存储引擎及其选择方法
+
+- MySQL 的常用数据类型及其选择方法
+
+- 如何为表选择适合的存储类型
+
+  满足我们需求的最小的数据类型
+
+- 如何为表起一个好名
+
+  做到见名识义
+
+笔者疑问：在起名这一块，为啥有的表字段不带表前缀？有带表字段呢？
+
