@@ -104,7 +104,7 @@
 
 可通过 [榜单](https://db-engines.com/en/ranking) 来获取
 
-![image-20200413230903756](docs/imooc-mysql8/02/assets/image-20200413230903756.png)
+![image-20200413230903756](./assets/image-20200413230903756.png)
 
 ### MySQL 可扩展性
 
@@ -147,7 +147,7 @@
 
 在官方参考手册中找到 [install 章节](https://dev.mysql.com/doc/refman/8.0/en/installing.html)，再继续找你适合你系统的安装说明，我这里选择了 [linux 安装](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html)
 
-![image-20200414221316390](docs/imooc-mysql8/02/assets/image-20200414221316390.png)
+![image-20200414221316390](./assets/image-20200414221316390.png)
 
 打开它对应的 [安装文档](https://dev.mysql.com/doc/refman/8.0/en/linux-installation-yum-repo.html)，找到 「Table 2.11 MySQL Installation Layout for Linux RPM Packages from the MySQL Developer Zone」一栏，里面解释了安装软件后的重要文件在什么位置，比如它的配置文件在 `/etc/my.cnf`
 
@@ -260,9 +260,9 @@ mysql> flush privileges;
 # 配置 mysql 命令的环境变量，上述需要 bin 下执行 mysql，配置后不需要绝对路径了
 # 同样，为了养成良好的习惯，我们这样做，专门建立一个环境变量的配置文件
 [root@study ~]# cd /etc/profile.d/
-[root@study profile.d]# vim myenv.sh 
+[root@study profile.d]# vim myenv.sh
 export PATH=$PATH:/usr/local/mysql/bin
-[root@study profile.d]# source myenv.sh 
+[root@study profile.d]# source myenv.sh
 
 ```
 
@@ -290,15 +290,15 @@ public (active)
   target: default
   icmp-block-inversion: no
   interfaces: enp0s3 enp0s8
-  sources: 
+  sources:
   services: dhcpv6-client ftp http https ssh
   ports: 222/tcp 555/tcp			# 这里没有 3306 端口，说没有放行该端口
-  protocols: 
+  protocols:
   masquerade: no
-  forward-ports: 
-  source-ports: 
-  icmp-blocks: 
-  rich rules: 
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
 	rule family="ipv4" source address="192.168.1.0/24" accept
 
 # 开放端口，和重新加载防火墙配置
@@ -330,9 +330,9 @@ System V 的操作
 [root@study local]# chown -R mysql:mysql /usr/local/mysql/sql_log/
 [root@study local]# chmod -R 750 /usr/local/mysql/sql_log/
 [root@study local]# cd /usr/local/mysql/sql_log/
-[root@study sql_log]# touch mysql-error.log 
-[root@study sql_log]# chown -R mysql:mysql mysql-error.log 
-[root@study sql_log]# chmod -R 750 mysql-error.log 
+[root@study sql_log]# touch mysql-error.log
+[root@study sql_log]# chown -R mysql:mysql mysql-error.log
+[root@study sql_log]# chmod -R 750 mysql-error.log
 
 
 # 启动
@@ -342,6 +342,3 @@ System V 的操作
 /etc/init.d/mysql.server stop
 
 ```
-
-
-
