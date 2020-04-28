@@ -22,6 +22,12 @@ module.exports = () => {
                 '06/03.md',
                 '06/04.md'
             ]
+        },
+        {
+            title: 'SQL 优化',
+            children: [
+                '07/'
+            ]
         }
     ]
 }
