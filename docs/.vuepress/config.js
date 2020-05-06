@@ -63,12 +63,6 @@ module.exports = {
     }
   },
   plugins: [
-    [
-      (pluginOptions, context) => ({
-        name: 'my-xxx-plugin',
-        clientRootMixin: 'F:\\dev\\project\\vuepress-plugin\\vuepress-plugin-page-nav\\clientRootMixin.js'
-      })
-    ],
     ['@vuepress/back-to-top', true],
     ['@vuepress/pwa', {
       serviceWorker: true,
