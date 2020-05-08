@@ -257,6 +257,150 @@ create index idx_levelname on imc_level(level_name);
 
 以上就是一个 SQL 优化的思路和过程，目的是减少循环次数、增加过滤的百分比。
 
+## 如何选择符合索引键的顺序？
 
+在前面的演示中已经说过了，这里总结下
 
-注意：截图还没有缩减尺寸
+1. 区分度最高的列放在联合索引的最左侧
+
+2. 使用最频繁的列放到联合索引的最左侧
+
+3. 尽量把字段长度小的列放在联合索引列的最左侧
+
+以上顺序是要保证上一条满足的情况下，再遵循下一条
+
+## Btree 索引的限制
+
+- 只能从最左侧开始按索引键的顺序使用索引，不能跳过索引键
+
+  如一个 a_b_c 的联合索引，在过滤的时候使用 a 和 c 列，那么就只能用到 a 列的索引
+
+- NOT IN 和 `<>`（不等于）  操作无法使用索引
+
+- 索引列上不能使用表达式或是函数
+
+## 索引使用的误区
+
+- 索引越多越好
+
+  绝对不是越多越好。
+
+- 使用 IN 列表查询不能用到索引
+
+  当 in 中的值的较多的时候，有可能就会被认定为全表查找由于索引查找
+
+- 查询过滤顺序必须同索引键顺序相同才可以使用到索引
+
+  上面演示过了，mysql 会自动优化的。
+
+## SQL 改写的原则
+
+SQL 当索引优化无效的时候就需要考虑改写 SQL 来适应正确的索引了。
+
+- 使用 outer join 代替 not in
+
+  前面说到过，当在 where 中使用 not in 或则是 `<>`  时，将无法使用索引。
+  
+- 使用 CTE 代替子查询
+
+  公共表表达式，前面讲解过了
+
+- 拆分复杂的大 SQL 为多个简单的小 SQL
+
+  一个 SQL 只能用到一个 CPU 核心查询，不能并发的执行。在 8.1.5 中，只有部分有一些改进了，但是还不太好。
+
+- 巧用计算列优化查询
+
+ 
+
+### 使用 outer join 代替 not in 的示例
+
+```sql
+-- 添加一条数据
+INSERT INTO `imc_db`.`imc_class`(`class_id`, `class_name`, `add_time`) VALUES (14, 'AI', '2020-04-30 04:55:55');
+
+-- 查询出不存在课程的分类名称
+explain
+select class_name
+from imc_class
+where class_id not in (select class_id from imc_course)
+```
+
+执行计划
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | PRIMARY | imc\_class | NULL | index | NULL | uqx\_classname | 32 | NULL | 14 | 100 | Using where; Using index |
+| 2 | DEPENDENT SUBQUERY | imc\_course | NULL | index\_subquery | idx\_classid\_typeid\_levelid | idx\_classid\_typeid\_levelid | 2 | func | 7 | 100 | Using index |
+
+这种情况下，都用上了索引，下面先改写 SQL，再讲解原因
+
+改写成外关联的方式为
+
+```sql
+explain
+select a.class_name
+from imc_class a
+         left join imc_course b on a.class_id = b.class_id
+where b.class_id is null;
+```
+
+执行计划为
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | SIMPLE | a | NULL | index | NULL | uqx\_classname | 32 | NULL | 14 | 100 | Using index |
+| 1 | SIMPLE | b | NULL | ref | idx\_classid\_typeid\_levelid | idx\_classid\_typeid\_levelid | 2 | imc\_db.a.class\_id | 7 | 100 | Using where; Not exists; Using index |
+
+可以看到这里和上面的 not in 的执行计划中用到的索引式一样的，这是因为 MySQL 8.0 已经自动优化掉了 not in 。
+
+### 巧用计算列优化查询 的示例
+
+```sql
+-- 查询对于内容，逻辑和难度三项评分之和大于 28 分的用户评分。
+explain 
+select *
+from imc_classvalue
+where (content_score + level_score + logic_score) > 28
+```
+
+执行计划为
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | SIMPLE | imc\_classvalue | NULL | ALL | NULL | NULL | NULL | NULL | 300 | 100 | Using where |
+
+可以看到没有用到索引，就算在这三列上创建了联合索引，也不能用到它
+
+计算列是 MySQL 5.7 新增的一个功能，可以利用表中的一些列，生成另外一个列
+
+```sql
+-- 需要在列定义上声明，这里新增一个列
+-- as 后面的则是计算表达式
+ALTER TABLE imc_classvalue
+    ADD COLUMN total_score DECIMAL(3, 1) as (content_score + level_score + logic_score);
+
+-- 再为这个计算列增加索引
+create index idx_total_score on imc_classvalue (total_score);
+
+-- 利用计算列来查询
+explain
+select *
+from imc_classvalue
+where total_score > 28;
+```
+
+执行计划为
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | SIMPLE | imc\_classvalue | NULL | range | idx\_total\_score | idx\_total\_score | 3 | NULL | 51 | 100 | Using where |
+
+可以看到，使用上了索引
+
+## 总结-本章知识点
+
+- SQL 优化的一般步骤
+- 如何发现存在性能问题的 SQL
+- 如何分析 SQL 的执行计划
+- 索引的作用以及如何为表建立合适的索引
