@@ -35,6 +35,13 @@ module.exports = () => {
         '03/03.md',
         '03/04.md'
       ]
+    },
+    {
+      title: '04. Schema 与数据类型优化',
+      children: [
+        '04/',
+        '04/01.md'
+      ]
     }
   ]
 }

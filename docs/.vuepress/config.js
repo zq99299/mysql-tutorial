@@ -53,7 +53,20 @@ module.exports = {
     },
     nav: [
       { text: 'Home', link: '/' },
-      { text: '给程序员的 MySQL 必知必会', link: '/imooc-mysql8/' },
+      {
+        text: '给程序员的 MySQL 8 必知必会', items: [
+          { text: '导览', link: '/imooc-mysql8/' },
+          { text: '课程序言', link: '/imooc-mysql8/01.md' },
+          { text: '技术选型之数据库选型', link: '/imooc-mysql8/02/' },
+          { text: '数据库设计', link: '/imooc-mysql8/03/' },
+          { text: '如何访问 MySQL', link: '/imooc-mysql8/04/' },
+          { text: '日常工作 DCL、DDL', link: '/imooc-mysql8/05/' },
+          { text: '高阶技能：DML & 常用函数', link: '/imooc-mysql8/06/' },
+          { text: 'SQL 优化', link: '/imooc-mysql8/07/' },
+          { text: 'SQL 的索引优化', link: '/imooc-mysql8/08/' },
+          { text: '事务与并发控制', link: '/imooc-mysql8/09/' },
+        ]
+      },
       { text: '高性能 MySQL（第 3 版）', link: '/high-performance/' },
       { text: '笔记精选汇总', link: 'https://github.com/zq99299/repository-summary' }
     ],
