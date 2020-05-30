@@ -1,5 +1,6 @@
 const imoocMysql8SC = require('../imooc-mysql8')
 const highPerformanceSC = require('../high-performance')
+const aliNewRetailSC = require('../ali-new-retail')
 
 module.exports = {
   title: 'MySQL 系列教程（笔记）',
@@ -67,12 +68,14 @@ module.exports = {
           { text: '事务与并发控制', link: '/imooc-mysql8/09/' },
         ]
       },
+      { text: '阿里新零售数据库设计与实战', link: '/ali-new-retail/' },
       { text: '高性能 MySQL（第 3 版）', link: '/high-performance/' },
       { text: '笔记精选汇总', link: 'https://github.com/zq99299/repository-summary' }
     ],
     sidebar: {  // 侧边栏配置，需要展示的侧边栏需要在这里配置
       '/imooc-mysql8/': imoocMysql8SC(),
-      '/high-performance/': highPerformanceSC()
+      '/high-performance/': highPerformanceSC(),
+      '/ali-new-retail/': aliNewRetailSC()
     }
   },
   plugins: [
