@@ -18,6 +18,7 @@ footer: MIT Licensed | Copyright © mrcode
 
 建设中
 
+分布式事务，有必要去了解下。
 ## 规约
 
 尽量遵循以下规范。
