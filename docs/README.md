@@ -1,5 +1,6 @@
 ---
 home: true
+heroImage: MLOGO200x200.png
 actionText: 给程序员的 MySQL 必知必会
 actionLink: /imooc-mysql8/01.md
 features:
